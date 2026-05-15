@@ -60,18 +60,18 @@ const Hero = () => {
           transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
           className="relative flex flex-col items-center mb-16 md:mb-20"
         >
-          <h1 className="text-[70px] sm:text-[100px] md:text-[160px] font-black text-white tracking-tighter leading-none flex items-center justify-center">
+          <h1 className="text-[40px] min-[400px]:text-[48px] sm:text-[70px] md:text-[120px] lg:text-[160px] font-black text-white tracking-tighter leading-none flex items-center justify-center w-full">
             <span>BUILD</span>
-            <div className="bg-white text-black px-2 md:px-4 py-1 md:py-2 transform -rotate-3 mx-2 md:mx-4 border-2 border-white">
-              <span className="text-3xl sm:text-5xl md:text-7xl font-bold lowercase tracking-tight">the</span>
+            <div className="bg-white text-black px-1.5 md:px-4 py-0.5 md:py-2 transform -rotate-3 mx-1.5 md:mx-4 border-2 border-white">
+              <span className="text-xl min-[400px]:text-2xl sm:text-4xl md:text-7xl font-bold lowercase tracking-tight">the</span>
             </div>
             <span>FUTURE</span>
           </h1>
           
-          <div className="absolute right-0 -bottom-8 md:-bottom-12 text-white text-xl md:text-3xl font-bold flex items-center gap-2">
-            <span className="text-sm md:text-xl font-medium lowercase">by</span>
-            <div className="flex items-center gap-1 italic">
-              <div className="w-3 h-3 md:w-4 md:h-4 bg-[#ea580c] skew-x-[-15deg]"></div>
+          <div className="absolute right-0 sm:right-4 -bottom-6 md:-bottom-12 text-white text-base md:text-3xl font-bold flex items-center gap-1.5 md:gap-2 pr-2 md:pr-0">
+            <span className="text-xs md:text-xl font-medium lowercase">by</span>
+            <div className="flex items-center gap-1 md:gap-1.5 italic">
+              <div className="w-2.5 h-2.5 md:w-4 md:h-4 bg-[#ea580c] skew-x-[-15deg]"></div>
               E-Cell
             </div>
           </div>

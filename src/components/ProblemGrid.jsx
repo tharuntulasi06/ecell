@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const problems = [
   {
@@ -71,15 +71,114 @@ const ArrowIcon = () => (
   </svg>
 );
 
+const MobileDeck = () => {
+  const [cards, setCards] = useState(problems);
+
+  const handleDragEnd = (event, info) => {
+    const swipeThreshold = 50;
+    if (info.offset.x < -swipeThreshold || info.offset.x > swipeThreshold) {
+      setCards((prev) => {
+        const newCards = [...prev];
+        if (info.offset.x < -swipeThreshold) {
+          // Swipe left
+          const frontCard = newCards.shift();
+          newCards.push(frontCard);
+        } else {
+          // Swipe right
+          const backCard = newCards.pop();
+          newCards.unshift(backCard);
+        }
+        return newCards;
+      });
+    }
+  };
+
+  return (
+    <div className="w-full flex md:hidden flex-col items-center justify-center relative min-h-[550px] overflow-visible py-8">
+      <div className="relative w-[300px] sm:w-[340px] h-[400px]">
+        <AnimatePresence>
+          {cards.map((prob, diff) => {
+            // Render only top 7 cards for performance
+            if (diff > 6) return null;
+
+            const isWhite = prob.theme === 'white';
+            const isOrange = prob.theme === 'orange';
+            const isDark = prob.theme === 'dark';
+
+            let rotate = 0;
+            let zIndex = 50 - diff;
+            
+            if (diff > 0) {
+              const base = Math.ceil(diff / 2) * 8; 
+              rotate = diff % 2 === 0 ? -base : base;
+            }
+
+            return (
+              <motion.div
+                key={prob.question}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  rotate, 
+                  scale: 1, 
+                  opacity: 1
+                }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className={`
+                  absolute top-0 left-0 w-full h-full p-8 rounded-[32px] flex flex-col justify-center
+                  shadow-2xl border border-white/10 ${diff === 0 ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'}
+                  ${isWhite ? 'bg-[#f4f4f5] text-black' : ''}
+                  ${isOrange ? 'bg-[#ea580c] text-white' : ''}
+                  ${isDark ? 'bg-[#222222] text-white' : ''}
+                `}
+                style={{ zIndex }}
+                drag={diff === 0 ? "x" : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.6}
+                onDragEnd={diff === 0 ? handleDragEnd : undefined}
+                whileDrag={{ scale: 1.05 }}
+              >
+                <div className="mb-6 flex justify-start">
+                   <span className={`
+                    text-sm font-bold px-4 py-1.5 rounded-lg border
+                    ${isWhite ? 'bg-white border-black/10 text-black' : ''}
+                    ${isOrange || isDark ? 'bg-transparent border-white/20 text-white' : ''}
+                  `}>
+                    {prob.category}
+                  </span>
+                </div>
+                <h3 className={`text-[26px] font-medium tracking-tight leading-[1.1] ${isWhite ? '' : 'text-white/95'}`}>
+                  {prob.question}
+                </h3>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+
+      <div className="mt-16 text-white/50 text-base tracking-widest font-medium flex items-center gap-4">
+        <span>&lt;</span>
+        <span>Swipe</span>
+        <span>&gt;</span>
+      </div>
+    </div>
+  );
+};
+
 const ProblemGrid = () => {
   return (
-    <div className="w-full bg-[#050505] py-24 md:py-32 px-4 md:px-8">
+    <div className="w-full bg-[#050505] py-24 md:py-32 px-4 md:px-8 overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
-        <h2 className="text-6xl md:text-[100px] font-black text-white uppercase tracking-tighter mb-12 leading-none">
-          TOP 10 PROBLEMS
+        <h2 className="text-[50px] sm:text-6xl md:text-[100px] font-black text-white uppercase tracking-tighter mb-4 md:mb-12 leading-none text-center md:text-left">
+          TOP 10 <br className="block md:hidden"/> PROBLEMS
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
+        {/* Mobile Deck View */}
+        <MobileDeck />
+
+        {/* Desktop Grid View */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
           {problems.map((prob, idx) => {
             const isWhite = prob.theme === 'white';
             const isOrange = prob.theme === 'orange';

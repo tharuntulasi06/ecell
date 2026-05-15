@@ -33,8 +33,7 @@ const TopProblems = () => {
         </h2>
       </div>
 
-      {/* Collage Container */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto h-[1000px] md:h-[550px] pointer-events-none">
+      <div className="relative z-10 w-full max-w-7xl mx-auto h-[1150px] md:h-[550px] pointer-events-none">
         
         {/* Shape 1: Triangle */}
         <motion.div 

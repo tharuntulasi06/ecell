@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const StatsBar = () => {
   return (
     <div className="w-full bg-[#0a0a0a] py-6 md:py-8 z-20 relative border-b border-white/10">
-      <div className="max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-8 md:gap-0">
+      <div className="max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-8 md:gap-0 w-full">
         
         {/* Stat 1 */}
         <div className="flex items-center gap-4 md:px-12 md:border-r border-white/20 w-full md:w-auto justify-center md:justify-start">
